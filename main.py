@@ -49,7 +49,9 @@ class App:
 
 		# on créé les manches de jeu
 		self.manches = [Pile(), Pile(), Pile()]
-
+		self.manche_en_cours = 0
+		self.manche_finie = True
+  
 		# on créé le paqquer puis les paquets de manches
 		self.packet = Packets_cartes()
 		self.packet.creation_packet()
@@ -73,81 +75,92 @@ class App:
 		elif carte1.couleur_numerique() < carte2.couleur_numerique():
 			return 2
 
-	def gestion_manche(self):
-		""" Gestion de la manche """
-		# on distribue les cartes
-		if self.statut_partie == 0:
+	def debut_manche(self):
+		""" initialise la manche à jouer si la manche précédente est finit ou est la première """
+		if self.manche_finie == True and self.statut_partie == 0:
+			# on distribue les cartes
 			for manche in self.manches:
 				while not manche.est_vide():
 					self.player.ajoute(manche.depiler())
 					self.ordi.ajoute(manche.depiler())
+			# on indique dans quelle manche on entre et que celle ci n'est donc pas finie
+			self.manche_en_cours += 1
+			self.manche_finie = False
 
-				# on effectue les comparaisons
-				while not self.player.est_vide() and not self.ordi.est_vide():
-					temp_carte_joueur = self.player.retire()
-					temp_carte_ordi = self.ordi.retire()
 
-					# retourne l'image de la carte temp_carte_joueur & temp_carte_ordi
-					pygame.display.flip()
-					self.screen.fill((255, 255, 255))
-					#dessine le texte joueur:
-					self.screen.blit(
-					 pygame.font.Font(None, 26).render("Joueur :", True, (0, 0, 0)),
-					 (100, 75))
-					self.screen.blit(
-					#dessine le texte de l'ordinateur:
-					 pygame.font.Font(None, 26).render("Ordinateur :", True, (0, 0, 0)),
-					 (300, 75))
-					# on affiche les cartes a partir de l'arribut de l'objet carte
-					self.screen.blit(temp_carte_joueur.image, (100, 100))
-					self.screen.blit(temp_carte_ordi.image, (300, 100))
-					time.sleep(2.5)  # pas propre mais sera remplacer par un vrai couldown
-					# on compare les cartes
-					gagnant = self.comparaison_cartes(temp_carte_joueur, temp_carte_ordi)
+	def gestion_manche(self):
+		""" Gestion de la manche """
 
-					if gagnant == 2:
-						print("Ordi gagne contre joueur car : ", temp_carte_ordi, " > ",
-						      temp_carte_joueur)
-						self.ordi.ajoute_gagnee(temp_carte_joueur)
-						self.ordi.ajoute_gagnee(temp_carte_ordi)
-						self.screen.blit(
-						 pygame.font.Font(None,
-						                  26).render("Joueur : Perdu | Ordinateur : Gagner",
-						                             True, (0, 0, 0)), (100, 315))
+		# on effectue les comparaisons
+		while not self.player.est_vide() and not self.ordi.est_vide():
+			self.temp_carte_joueur = self.player.retire()
+			self.temp_carte_ordi = self.ordi.retire()
 
-					elif gagnant == 1:
-						print("Joueur gagne contre ordi car : ", temp_carte_joueur, " > ",
-						      temp_carte_ordi)
-						self.player.ajoute_gagnee(temp_carte_joueur)
-						self.player.ajoute_gagnee(temp_carte_ordi)
-						self.screen.blit(
-						 pygame.font.Font(None,
-						                  26).render("Joueur : Gagner | Ordinateur : Perdu",
-						                             True, (0, 0, 0)), (100, 315))
-				# on regarde si la manche est finit et on effectu les verifications et modifications necessaires
-				if self.player.est_vide() or self.ordi.est_vide():
-					if self.player.taille_gagnee() > self.ordi.taille_gagnee():
-						print("😱 Joueur gagne cette manche")
-						self.player.ajouter_score()
-						self.player.reset_gagnee()
-						self.screen.blit(
-						 pygame.font.Font(None, 26).render("Joueur à gagner la manche", True,
-						                                   (0, 0, 0)), (100, 375))
-					else:
-						print("😱 Ordi gagne cette manche")
-						self.ordi.ajouter_score()
-						self.ordi.reset_gagnee()
-						self.screen.blit(
-						 pygame.font.Font(None, 26).render("Ordinateur à gagner la manche", True,
-						                                   (0, 0, 0)), (100, 375))
-		# fin de la partie apres les deux ou trois manches
+			self.screen.fill((255, 255, 255))
+			#dessine le texte joueur:
+			self.screen.blit(
+				pygame.font.Font(None, 26).render("Joueur :", True, (0, 0, 0)),
+				(100, 75))
+			self.screen.blit(
+			#dessine le texte de l'ordinateur:
+				pygame.font.Font(None, 26).render("Ordinateur :", True, (0, 0, 0)),
+				(300, 75))
+			# on affiche les cartes a partir de l'arribut de l'objet carte
+			self.screen.blit(self.temp_carte_joueur.image, (100, 100))
+			self.screen.blit(self.temp_carte_ordi.image, (300, 100))
+			time.sleep(2.5)  # pas propre mais sera remplacer par un vrai couldown
+			# on compare les cartes
+			self.gagnant = self.comparaison_cartes(self.temp_carte_joueur, self.temp_carte_ordi)
+
+			if self.gagnant == 2:
+				print("Ordi gagne contre joueur car : ", self.temp_carte_ordi, " > ",
+						self.temp_carte_joueur)
+				self.ordi.ajoute_gagnee(self.temp_carte_joueur)
+				self.ordi.ajoute_gagnee(self.temp_carte_ordi)
+				self.screen.blit(
+					pygame.font.Font(None,
+									26).render("Joueur : Perdu | Ordinateur : Gagner",
+												True, (0, 0, 0)), (100, 315))
+
+			elif self.gagnant == 1:
+				print("Joueur gagne contre ordi car : ", self.temp_carte_joueur, " > ",
+						self.temp_carte_ordi)
+				self.player.ajoute_gagnee(self.temp_carte_joueur)
+				self.player.ajoute_gagnee(self.temp_carte_ordi)
+				self.screen.blit(
+					pygame.font.Font(None,
+									26).render("Joueur : Gagner | Ordinateur : Perdu",
+												True, (0, 0, 0)), (100, 315))
+
+	def fin_manche(self):
+		""" regarde si la manche est finit et on effectue les verifications et modifications necessaires """
+		if self.player.est_vide() or self.ordi.est_vide():
+			if self.player.taille_gagnee() > self.ordi.taille_gagnee():
+				print("😱 Joueur gagne cette manche")
+				self.player.ajouter_score()
+				self.player.reset_gagnee()
+				self.screen.blit(
+					pygame.font.Font(None, 26).render("Joueur à gagner la manche", True,
+													(0, 0, 0)), (100, 375))
+			else:
+				print("😱 Ordi gagne cette manche")
+				self.ordi.ajouter_score()
+				self.ordi.reset_gagnee()
+				self.screen.blit(
+					pygame.font.Font(None, 26).render("Ordinateur à gagner la manche", True,
+													(0, 0, 0)), (100, 375))
+
+			self.manche_finie = True
+
+	def fin_partie(self):
+		""" fin de la partie apres les deux ou trois manches """
 		if self.statut_partie == 0:
 			if self.player.recuperer_score() > self.ordi.recuperer_score():
 				print("🏆 Le joueur gagne la partie")
 				self.screen.fill((255, 255, 255))
 				self.screen.blit(
-				 pygame.font.Font(None, 26).render("Joueur à gagner les 3 manches !!!!",
-				                                   True, (0, 0, 0)), (100, 75))
+					pygame.font.Font(None, 26).render("Joueur à gagner les 3 manches !!!!",
+													True, (0, 0, 0)), (100, 75))
 				pygame.display.flip()
 				self.statut_partie = 1
 
@@ -155,16 +168,18 @@ class App:
 				print("🏆 L'ordinateur gagne la partie")
 				self.screen.fill((255, 255, 255))
 				self.screen.blit(
-				 pygame.font.Font(None,
-				                  26).render("Ordinateur à gagner les 3 manches !!!!",
-				                             True, (0, 0, 0)), (100, 75))
+					pygame.font.Font(None,
+									26).render("Ordinateur à gagner les 3 manches !!!!",
+												True, (0, 0, 0)), (100, 75))
 				pygame.display.flip()
 				self.statut_partie = 1
-
+    
+    def affichage(self):
+ 
 	def run(self):
 		"""
-  		Fonction principale du jeu
-  		"""
+		Fonction principale du jeu
+		"""
 		pygame.display.set_caption(self.window_name)
 		while self.running:
 			# poll for events
@@ -176,17 +191,17 @@ class App:
 			# fill the screen with a color to wipe away anything from last frame
 			self.screen.fill("white")
 
-			# Affichage de la carte
-			# pygame.Surface.blit(self.screen, carte.test.image, (0, 0), area=None, special_flags=0)
+			# gestion des manches
+			self.debut_manche()
+			self.gestion_manche()
+			self.fin_manche()
+			self.fin_partie()
 
 			# flip() the display to put your work on screen
 
 			self.dt = self.clock.tick(60) / 1000
 
-			# gestion des manches
-			self.gestion_manche()
-
-			# remettre ici le pygame flip apres les test
+			pygame.display.flip()
 
 
 # _____ programme principal _____ #
