@@ -15,7 +15,7 @@ debugpy = "^1.6.2"
 python-lsp-server = {extras = ["yapf", "rope", "pyflakes"], version = "^1.5.0"}
 toml = "^0.10.2"
 poetry = {url = "https://storage.googleapis.com/poetry-bundles/poetry-1.1.15-py2.py3-none-any.whl"}
-urllib3 = "1.26.15"
+urllib3 = "1.26.18"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
