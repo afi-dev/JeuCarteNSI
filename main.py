@@ -86,7 +86,6 @@ class App:
 				while not self.player.est_vide() and not self.ordi.est_vide():
 					temp_carte_joueur = self.player.retire()
 					temp_carte_ordi = self.ordi.retire()
-					# affiche les cartes a partir de la méthode get_image issu de l'import de packet qui l'Import
 
 					# retourne l'image de la carte temp_carte_joueur & temp_carte_ordi
 					pygame.display.flip()
@@ -99,6 +98,7 @@ class App:
 					#dessine le texte de l'ordinateur:
 					 pygame.font.Font(None, 26).render("Ordinateur :", True, (0, 0, 0)),
 					 (300, 75))
+					# on affiche les cartes a partir de l'arribut de l'objet carte
 					self.screen.blit(temp_carte_joueur.image, (100, 100))
 					self.screen.blit(temp_carte_ordi.image, (300, 100))
 					time.sleep(2.5)  # pas propre mais sera remplacer par un vrai couldown
