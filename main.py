@@ -136,20 +136,9 @@ class App:
 		if self.statut_partie == 0:
 			if self.player.recuperer_score() > self.ordi.recuperer_score():
 				print("🏆 Le joueur gagne la partie")
-				self.screen.fill((255, 255, 255))
-				self.screen.blit(
-					pygame.font.Font(None, 26).render("Joueur à gagner les 3 manches !!!!",
-													True, (0, 0, 0)), (100, 75))
-				pygame.display.flip()
 
 			else:
 				print("🏆 L'ordinateur gagne la partie")
-				self.screen.fill((255, 255, 255))
-				self.screen.blit(
-					pygame.font.Font(None,
-									26).render("Ordinateur à gagner les 3 manches !!!!",
-												True, (0, 0, 0)), (100, 75))
-				pygame.display.flip()
     
 			self.statut_partie = 1
 		
@@ -171,6 +160,17 @@ class App:
 				pygame.font.Font(None,
 								26).render("Joueur : Gagner | Ordinateur : Perdu",
 											True, (0, 0, 0)), (100, 315))
+
+		if self.player.recuperer_score() > self.ordi.recuperer_score():
+			self.screen.blit(
+			pygame.font.Font(None, 26).render("Joueur à gagner les 3 manches !!!!",
+											True, (0, 0, 0)), (100, 75))
+
+		else:
+			self.screen.blit(
+			pygame.font.Font(None, 26).render("Ordinateur à gagner les 3 manches !!!!",
+											True, (0, 0, 0)), (100, 75))
+   
 
 		pygame.display.flip()
 	
