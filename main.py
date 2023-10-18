@@ -95,7 +95,6 @@ class App:
 			self.temp_carte_joueur = self.player.retire()
 			self.temp_carte_ordi = self.ordi.retire()
    
-			time.sleep(2.5)  # pas propre mais sera remplacer par un vrai couldown
 			# on compare les cartes
 			self.gagnant = self.comparaison_cartes(self.temp_carte_joueur, self.temp_carte_ordi)
 
@@ -171,7 +170,6 @@ class App:
 			pygame.font.Font(None, 26).render("Ordinateur à gagner les 3 manches !!!!",
 											True, (0, 0, 0)), (100, 75))
    
-
 		pygame.display.flip()
 	
 	def run(self):
@@ -197,6 +195,9 @@ class App:
 
 			# affichage dans pygame
 			self.affichage()
+   
+			# on attend l'interraction de l'utilisateur
+			time.sleep(0.5)  # pas propre mais sera remplacer par un vrai couldown
 
 			self.dt = self.clock.tick(60) / 1000
 

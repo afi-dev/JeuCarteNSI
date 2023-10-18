@@ -11,6 +11,9 @@ class Pile:
 	def est_vide(self):
 		return len(self.pile) == 0
 
+	def longueur(self):
+		return len(self.pile)
+
 	def empiler(self, element):
 		self.pile.append(element)
 

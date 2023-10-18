@@ -25,14 +25,7 @@ class Joueur():
 
 	def taille_gagnee(self):
 		# depile puis rempile pour calculer la taille de la pile
-		taille = 0
-		while not self.cartes_gagnee.est_vide():
-			pile_temp = Pile()
-			pile_temp.empiler(self.cartes_gagnee.depiler())
-			taille += 1
-		while not pile_temp.est_vide():
-			self.cartes_gagnee.empiler(pile_temp.depiler())
-		return taille
+		return self.cartes_gagnee.longueur()
 
 	def reset_gagnee(self):
 		while not self.cartes_gagnee.est_vide():
