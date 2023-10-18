@@ -81,6 +81,8 @@ class App:
 				while not manche.est_vide():
 					self.player.ajoute(manche.depiler())
 					self.ordi.ajoute(manche.depiler())
+
+				# on effectue les comparaisons
 				while not self.player.est_vide() and not self.ordi.est_vide():
 					temp_carte_joueur = self.player.retire()
 					temp_carte_ordi = self.ordi.retire()
@@ -94,6 +96,7 @@ class App:
 					 pygame.font.Font(None, 26).render("Joueur :", True, (0, 0, 0)),
 					 (100, 75))
 					self.screen.blit(
+					#dessine le texte de l'ordinateur:
 					 pygame.font.Font(None, 26).render("Ordinateur :", True, (0, 0, 0)),
 					 (300, 75))
 					self.screen.blit(temp_carte_joueur.image, (100, 100))
