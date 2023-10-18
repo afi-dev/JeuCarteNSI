@@ -90,24 +90,11 @@ class App:
 
 	def gestion_manche(self):
 		""" Gestion de la manche """
-
 		# on effectue les comparaisons
-		while not self.player.est_vide() and not self.ordi.est_vide():
+		if not self.player.est_vide() and not self.ordi.est_vide():
 			self.temp_carte_joueur = self.player.retire()
 			self.temp_carte_ordi = self.ordi.retire()
-
-			self.screen.fill((255, 255, 255))
-			#dessine le texte joueur:
-			self.screen.blit(
-				pygame.font.Font(None, 26).render("Joueur :", True, (0, 0, 0)),
-				(100, 75))
-			self.screen.blit(
-			#dessine le texte de l'ordinateur:
-				pygame.font.Font(None, 26).render("Ordinateur :", True, (0, 0, 0)),
-				(300, 75))
-			# on affiche les cartes a partir de l'arribut de l'objet carte
-			self.screen.blit(self.temp_carte_joueur.image, (100, 100))
-			self.screen.blit(self.temp_carte_ordi.image, (300, 100))
+   
 			time.sleep(2.5)  # pas propre mais sera remplacer par un vrai couldown
 			# on compare les cartes
 			self.gagnant = self.comparaison_cartes(self.temp_carte_joueur, self.temp_carte_ordi)
@@ -117,20 +104,12 @@ class App:
 						self.temp_carte_joueur)
 				self.ordi.ajoute_gagnee(self.temp_carte_joueur)
 				self.ordi.ajoute_gagnee(self.temp_carte_ordi)
-				self.screen.blit(
-					pygame.font.Font(None,
-									26).render("Joueur : Perdu | Ordinateur : Gagner",
-												True, (0, 0, 0)), (100, 315))
 
 			elif self.gagnant == 1:
 				print("Joueur gagne contre ordi car : ", self.temp_carte_joueur, " > ",
 						self.temp_carte_ordi)
 				self.player.ajoute_gagnee(self.temp_carte_joueur)
 				self.player.ajoute_gagnee(self.temp_carte_ordi)
-				self.screen.blit(
-					pygame.font.Font(None,
-									26).render("Joueur : Gagner | Ordinateur : Perdu",
-												True, (0, 0, 0)), (100, 315))
 
 	def fin_manche(self):
 		""" regarde si la manche est finit et on effectue les verifications et modifications necessaires """
@@ -162,7 +141,6 @@ class App:
 					pygame.font.Font(None, 26).render("Joueur à gagner les 3 manches !!!!",
 													True, (0, 0, 0)), (100, 75))
 				pygame.display.flip()
-				self.statut_partie = 1
 
 			else:
 				print("🏆 L'ordinateur gagne la partie")
@@ -172,10 +150,30 @@ class App:
 									26).render("Ordinateur à gagner les 3 manches !!!!",
 												True, (0, 0, 0)), (100, 75))
 				pygame.display.flip()
-				self.statut_partie = 1
     
-    def affichage(self):
- 
+			self.statut_partie = 1
+		
+	def affichage(self):
+		""" affichage du jeu pour pygame """
+		# on affiche les cartes a partir de l'arribut de l'objet carte
+		self.screen.blit(self.temp_carte_joueur.image, (100, 100))
+		self.screen.blit(self.temp_carte_ordi.image, (300, 100))
+
+		# on affiche le texte selon le gagnant
+		if self.gagnant == 2:
+			self.screen.blit(
+				pygame.font.Font(None,
+								26).render("Joueur : Perdu | Ordinateur : Gagner",
+											True, (0, 0, 0)), (100, 315))
+
+		elif self.gagnant == 1:
+			self.screen.blit(
+				pygame.font.Font(None,
+								26).render("Joueur : Gagner | Ordinateur : Perdu",
+											True, (0, 0, 0)), (100, 315))
+
+		pygame.display.flip()
+	
 	def run(self):
 		"""
 		Fonction principale du jeu
@@ -197,11 +195,11 @@ class App:
 			self.fin_manche()
 			self.fin_partie()
 
-			# flip() the display to put your work on screen
+			# affichage dans pygame
+			self.affichage()
 
 			self.dt = self.clock.tick(60) / 1000
 
-			pygame.display.flip()
 
 
 # _____ programme principal _____ #
