@@ -102,8 +102,8 @@ class App:
 					self.screen.blit(temp_carte_joueur.image, (100, 100))
 					self.screen.blit(temp_carte_ordi.image, (300, 100))
 					time.sleep(2.5)  # pas propre mais sera remplacer par un vrai couldown
+					# on compare les cartes
 					gagnant = self.comparaison_cartes(temp_carte_joueur, temp_carte_ordi)
-					# appele la class carte avec al methode get_image pour afficher la carte correspodnant
 
 					if gagnant == 2:
 						print("Ordi gagne contre joueur car : ", temp_carte_ordi, " > ",
@@ -124,6 +124,7 @@ class App:
 						 pygame.font.Font(None,
 						                  26).render("Joueur : Gagner | Ordinateur : Perdu",
 						                             True, (0, 0, 0)), (100, 315))
+				# on regarde si la manche est finit et on effectu les verifications et modifications necessaires
 				if self.player.est_vide() or self.ordi.est_vide():
 					if self.player.taille_gagnee() > self.ordi.taille_gagnee():
 						print("😱 Joueur gagne cette manche")
@@ -139,6 +140,7 @@ class App:
 						self.screen.blit(
 						 pygame.font.Font(None, 26).render("Ordinateur à gagner la manche", True,
 						                                   (0, 0, 0)), (100, 375))
+		# fin de la partie apres les deux ou trois manches
 		if self.statut_partie == 0:
 			if self.player.recuperer_score() > self.ordi.recuperer_score():
 				print("🏆 Le joueur gagne la partie")
