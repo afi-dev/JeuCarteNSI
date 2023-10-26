@@ -37,14 +37,13 @@ class App:
 		self.screen = pygame.display.set_mode((1280, 720))
 		self.clock = pygame.time.Clock()
 		self.running = True
-		self.statut_partie = 0
 		self.window_name = "Jeu de Carte Pygame"
 		self.player_pos = pygame.Vector2(self.screen.get_width() / 2,
 		                                 self.screen.get_height() / 2)
 		self.dt = 0
 
 		# creation du statut de la partie
-		self.statut_partie = 0  # 0 : menu ; 1 : manche en cours ; 2 : fin de manche ; 3 : fin de partie
+		self.statut_partie = 1  # 0 : menu ; 1 : manche en cours ; 2 : fin de manche ; 3 : fin de partie
 
 		# On cree les joueurs
 		self.player = Joueur()
@@ -80,7 +79,7 @@ class App:
 
 	def debut_manche(self):
 		""" initialise la manche à jouer si la manche précédente est finit ou est la première """
-		if self.manche_finie == True and self.statut_partie == 0:
+		if self.manche_finie == True and self.statut_partie == 1:
 			# on distribue les cartes
 			for manche in self.manches:
 				while not manche.est_vide():
@@ -151,7 +150,7 @@ class App:
 			self.debut_manche()
 			self.gestion_manche()
 			self.fin_manche()
-		if self.statut_partie == 2:
+		elif self.statut_partie == 2:
 			# actualisation de la fin de la partie
 			self.fin_partie()
 
@@ -160,7 +159,7 @@ class App:
 		if self.statut_partie == 0:
 			pass
 
-		if self.statut_partie == 1:
+		elif self.statut_partie == 1:
 			# on affiche les cartes a partir de l'arribut de l'objet carte
 			self.screen.blit(self.temp_carte_joueur.image, (100, 100))
 			self.screen.blit(self.temp_carte_ordi.image, (300, 100))
