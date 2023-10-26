@@ -143,6 +143,12 @@ class App:
 
 			self.statut_partie = 1
 
+
+	def interaction(self):
+		""" attends une interraction du joueur avant de finir """ 
+		for event in pygame.event.get():
+			return event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE
+
 	def actualiser(self):
 		""" met a jour les variables """
 		if self.statut_partie == 1:
@@ -212,7 +218,9 @@ class App:
 
 			# on attend l'interraction de l'utilisateur
 			# pas propre mais sera remplacer par un vrai couldown
-			time.sleep(0.5)
+			action = False
+			while not action:
+				action = self.interaction()
 
 			self.dt = self.clock.tick(60) / 1000
 
