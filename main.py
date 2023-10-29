@@ -127,7 +127,10 @@ class App:
 				print("😱 Ordi gagne cette manche")
 				self.ordi.ajouter_score()
 
-			self.statut_partie = 2 # statut_partie = manche finie
+			if self.player.score > 1 or self.ordi.score > 1:
+				self.statut_partie = 3 # statut_partie = jeu fini
+			else:
+				self.statut_partie = 2 # statut_partie = manche finie
 
 	def fin_partie(self):
 		""" fin de la partie apres les deux ou trois manches """
@@ -197,12 +200,12 @@ class App:
 			# on affiche les cartes a partir de l'arribut de l'objet carte
 			if self.player.recuperer_score() > self.ordi.recuperer_score():
 				self.screen.blit(
-				 pygame.font.Font(None, 26).render("Joueur gagne les 3 manches !", True,
+				 pygame.font.Font(None, 26).render("Le joueur gagne la partie", True,
 				                                   (0, 0, 0)), (100, 75))
 
 			else:
 				self.screen.blit(
-				 pygame.font.Font(None, 26).render("L'ordinateur gagne les 3 manches !",
+				 pygame.font.Font(None, 26).render("L'ordinateur gagne la partie",
 				                                   True, (0, 0, 0)), (100, 75))
 
 		pygame.display.flip()
