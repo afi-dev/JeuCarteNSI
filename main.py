@@ -43,7 +43,8 @@ class App:
 		self.dt = 0
 
 		# creation du statut de la partie
-		self.statut_partie = 1  # 0 : menu ; 1 : manche en cours ; 2 : fin de manche ; 3 : fin de partie
+		self.statut_partie = 2  # 0 : menu ; 1 : manche en cours ; 2 : fin de manche ; 3 : fin de partie
+		# pour le moment initialisé à 2 car aucune manche n'est lancée
 
 		# On cree les joueurs
 		self.player = Joueur()
@@ -79,15 +80,18 @@ class App:
 
 	def debut_manche(self):
 		""" initialise la manche à jouer si la manche précédente est finit ou est la première """
-		if self.manche_finie == True and self.statut_partie == 1:
-			# on distribue les cartes
-			for manche in self.manches:
-				while not manche.est_vide():
-					self.player.ajoute(manche.depiler())
-					self.ordi.ajoute(manche.depiler())
-			# on indique dans quelle manche on entre et que celle ci n'est donc pas finie
-			self.manche_en_cours += 1
-			self.manche_finie = False
+		# on retire les cartes gagnées pour redémarer
+		self.player.reset_gagnee()
+		self.ordi.reset_gagnee()
+  
+		# on distribue les cartes
+		""" un for ne corresponsait pas car revenait à distribuer toutes les cartes du jeu """
+		while not self.manches[self.manche_en_cours].est_vide():
+			self.player.ajoute(self.manches[self.manche_en_cours].depiler())
+			self.ordi.ajoute(self.manches[self.manche_en_cours].depiler())
+		# on indique dans quelle manche on entre et que celle ci n'est donc pas finie
+		self.manche_en_cours += 1
+		self.statut_partie = 1 # statut_partie = manche en cours
 
 	def gestion_manche(self):
 		""" Gestion de la manche """
@@ -118,19 +122,12 @@ class App:
 			if self.player.taille_gagnee() > self.ordi.taille_gagnee():
 				print("😱 Joueur gagne cette manche")
 				self.player.ajouter_score()
-				self.player.reset_gagnee()
-				self.screen.blit(
-				 pygame.font.Font(None, 26).render("Joueur à gagner la manche", True,
-				                                   (0, 0, 0)), (100, 375))
+
 			else:
 				print("😱 Ordi gagne cette manche")
 				self.ordi.ajouter_score()
-				self.ordi.reset_gagnee()
-				self.screen.blit(
-				 pygame.font.Font(None, 26).render("Ordinateur à gagner la manche", True,
-				                                   (0, 0, 0)), (100, 375))
 
-			self.manche_finie = True
+			self.statut_partie = 2 # statut_partie = manche finie
 
 	def fin_partie(self):
 		""" fin de la partie apres les deux ou trois manches """
@@ -151,12 +148,16 @@ class App:
 
 	def actualiser(self):
 		""" met a jour les variables """
+		if self.statut_partie == 2:
+			# création de la manche
+			self.debut_manche()
+  
 		if self.statut_partie == 1:
 			# actualisation des manches
-			self.debut_manche()
 			self.gestion_manche()
 			self.fin_manche()
-		elif self.statut_partie == 2:
+   
+		if self.statut_partie == 3:
 			# actualisation de la fin de la partie
 			self.fin_partie()
 
@@ -180,6 +181,17 @@ class App:
 				self.screen.blit(
 				 pygame.font.Font(None, 26).render("Joueur : Gagner | Ordinateur : Perdu",
 				                                   True, (0, 0, 0)), (100, 315))
+
+		elif self.statut_partie == 2:
+			if self.player.taille_gagnee() > self.ordi.taille_gagnee():
+				self.screen.blit(
+					 pygame.font.Font(None, 26).render("Joueur à gagner la manche", True,
+				                 	                  (0, 0, 0)), (100, 375))
+    
+			else:
+				self.screen.blit(
+					 pygame.font.Font(None, 26).render("Ordinateur à gagner la manche", True,
+					                                   (0, 0, 0)), (100, 375))
 
 		elif self.statut_partie == 3:
 			# on affiche les cartes a partir de l'arribut de l'objet carte
