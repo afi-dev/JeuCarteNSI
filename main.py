@@ -34,7 +34,7 @@ class App:
         """
 		# Initialisation de Pygame
 		pygame.init()
-		self.screen = pygame.display.set_mode((1280, 720))
+		self.screen = pygame.display.set_mode((550, 550))
 		self.clock = pygame.time.Clock()
 		self.running = True
 		self.window_name = "Jeu de Carte Pygame"
@@ -177,23 +177,23 @@ class App:
 			# on affiche le texte selon le gagnant
 			if self.gagnant == 2:
 				self.screen.blit(
-				 pygame.font.Font(None, 26).render("Joueur : Perdu | Ordinateur : Gagner",
+				 pygame.font.Font(None, 26).render("Joueur : Perd | Ordinateur : Gagne",
 				                                   True, (0, 0, 0)), (100, 315))
 
 			elif self.gagnant == 1:
 				self.screen.blit(
-				 pygame.font.Font(None, 26).render("Joueur : Gagner | Ordinateur : Perdu",
+				 pygame.font.Font(None, 26).render("Joueur : Gagne | Ordinateur : Perd",
 				                                   True, (0, 0, 0)), (100, 315))
 
 		elif self.statut_partie == 2:
 			if self.player.taille_gagnee() > self.ordi.taille_gagnee():
 				self.screen.blit(
-					 pygame.font.Font(None, 26).render("Joueur à gagner la manche", True,
+					 pygame.font.Font(None, 26).render("Joueur a gagné la manche", True,
 				                 	                  (0, 0, 0)), (100, 375))
     
 			else:
 				self.screen.blit(
-					 pygame.font.Font(None, 26).render("Ordinateur à gagner la manche", True,
+					 pygame.font.Font(None, 26).render("Ordinateur a gagné la manche", True,
 					                                   (0, 0, 0)), (100, 375))
 
 		elif self.statut_partie == 3:
