@@ -240,6 +240,9 @@ class App:
 			self.dt = self.clock.tick(60) / 1000
 
 
+pygame_icon = pygame.image.load("images/icon.png")
+pygame.display.set_icon(pygame_icon)
+
 # _____ programme principal _____ #
 Game = App()
 Game.run()
