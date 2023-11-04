@@ -34,7 +34,7 @@ Le jeu devrait se lancer et s'afficher dans une fenêtre Pygame.
 
 2. Double-cliquez sur le fichier main.exe.
 
-Le jeu devrait se lancer et s'afficher dans une fenêtre Pygame avec le terminal de dubug.
+Le jeu devrait se lancer et s'afficher dans une fenêtre Pygame avec le terminal de debug.
 
 ## Comment Jouer
 
