@@ -5,6 +5,7 @@ from pile import Pile
 class Packets_cartes:
 
     def __init__(self):
+        """ initialise un paquet vide """
         self.liste_cartes = Pile()
         self.taille = 52
 
@@ -20,8 +21,9 @@ class Packets_cartes:
         # self.liste_cartes.affiche()  # debug
 
     def est_vide(self):
-		# Retourne True si le nombre de cartes dans le paquet est nul
+        """ Retourne True si le nombre de cartes dans le paquet est nul """
         return self.liste_cartes.est_vide()
 	
     def prendre_carte(self):
+        """ retire une carte du paquet et la renvoi """
         return self.liste_cartes.depiler()

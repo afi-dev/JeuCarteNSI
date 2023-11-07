@@ -83,7 +83,7 @@ class App:
 		# on retire les cartes gagnées pour redémarer
 		self.player.reset_gagnee()
 		self.ordi.reset_gagnee()
-  
+
 		# on distribue les cartes
 		""" un for ne corresponsait pas car revenait à distribuer toutes les cartes du jeu """
 		while not self.manches[self.manche_en_cours].est_vide():
@@ -91,7 +91,7 @@ class App:
 			self.ordi.ajoute(self.manches[self.manche_en_cours].depiler())
 		# on indique dans quelle manche on entre et que celle ci n'est donc pas finie
 		self.manche_en_cours += 1
-		self.statut_partie = 1 # statut_partie = manche en cours
+		self.statut_partie = 1  # statut_partie = manche en cours
 
 	def gestion_manche(self):
 		""" Gestion de la manche """
@@ -128,9 +128,9 @@ class App:
 				self.ordi.ajouter_score()
 
 			if self.player.score > 1 or self.ordi.score > 1:
-				self.statut_partie = 3 # statut_partie = jeu fini
+				self.statut_partie = 3  # statut_partie = jeu fini
 			else:
-				self.statut_partie = 2 # statut_partie = manche finie
+				self.statut_partie = 2  # statut_partie = manche finie
 
 	def fin_partie(self):
 		""" fin de la partie apres les deux ou trois manches """
@@ -143,9 +143,8 @@ class App:
 
 			self.statut_partie = 1
 
-
 	def interaction(self):
-		""" attends une interraction du joueur avant de finir """ 
+		""" attends une interraction du joueur avant de finir """
 		for event in pygame.event.get():
 			return event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE
 
@@ -154,12 +153,12 @@ class App:
 		if self.statut_partie == 2:
 			# création de la manche
 			self.debut_manche()
-  
+
 		if self.statut_partie == 1:
 			# actualisation des manches
 			self.gestion_manche()
 			self.fin_manche()
-   
+
 		if self.statut_partie == 3:
 			# actualisation de la fin de la partie
 			self.fin_partie()
@@ -188,13 +187,13 @@ class App:
 		elif self.statut_partie == 2:
 			if self.player.taille_gagnee() > self.ordi.taille_gagnee():
 				self.screen.blit(
-					 pygame.font.Font(None, 26).render("Joueur a gagné la manche", True,
-				                 	                  (0, 0, 0)), (100, 375))
-    
+				 pygame.font.Font(None, 26).render("Joueur a gagné la manche", True,
+				                                   (0, 0, 0)), (100, 375))
+
 			else:
 				self.screen.blit(
-					 pygame.font.Font(None, 26).render("Ordinateur a gagné la manche", True,
-					                                   (0, 0, 0)), (100, 375))
+				 pygame.font.Font(None, 26).render("Ordinateur a gagné la manche", True,
+				                                   (0, 0, 0)), (100, 375))
 
 		elif self.statut_partie == 3:
 			# on affiche les cartes a partir de l'arribut de l'objet carte
@@ -205,8 +204,8 @@ class App:
 
 			else:
 				self.screen.blit(
-				 pygame.font.Font(None, 26).render("L'ordinateur gagne la partie",
-				                                   True, (0, 0, 0)), (100, 75))
+				 pygame.font.Font(None, 26).render("L'ordinateur gagne la partie", True,
+				                                   (0, 0, 0)), (100, 75))
 
 		pygame.display.flip()
 
