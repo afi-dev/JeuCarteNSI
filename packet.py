@@ -10,11 +10,14 @@ class Packets_cartes:
         self.taille = 52
 
     def creation_packet(self):
+        """ cree un paquet de 52 instances d'objet Carte et les melange """
         couleurs = ["pique", "coeur", "carreau", "trefle"]
+        # empilement des cartes numero et figures de chaque couleur
         for couleur in couleurs:
             for valeur in range(2, 15):  # Les valeurs vont de 2 à 14 (As)
                 carte = Carte(valeur, couleur)
                 self.liste_cartes.empiler(carte)
+        # ajout des deux valets noir et rouge
         self.liste_cartes.empiler(Carte(15,"pique"))
         self.liste_cartes.empiler(Carte(15,"coeur"))
         self.liste_cartes.melanger()

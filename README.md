@@ -47,4 +47,4 @@ rêgles du jeu :
  - en cas d'égualité à la fin des deux manches on recommence avec la troisième manche
  le gagnant est celui qui a remporté le plus de manches parmi les 3 manches
 
-Vous devrez appuyer sur espace pour passer chaque tour.
+pour passez a l'ecrant suivant, appuyez sur la barre espace

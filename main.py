@@ -15,6 +15,8 @@ rêgles du jeu :
  - on recommence avec la deuxième manche
  - en cas d'égualité à la fin des deux manches on recommence avec la troisième manche
  le gagnant est celui qui a remporté le plus de manches
+
+pour passez a l'ecrant suivant, appuyez sur la barre espace
 """
 # _____ bibliotheques _____ #
 import pygame
@@ -104,12 +106,14 @@ class App:
 			self.gagnant = self.comparaison_cartes(self.temp_carte_joueur,
 			                                       self.temp_carte_ordi)
 
+			# si l'ordi gagne :
 			if self.gagnant == 2:
 				print("Ordi gagne contre joueur car : ", self.temp_carte_ordi, " > ",
 				      self.temp_carte_joueur)
 				self.ordi.ajoute_gagnee(self.temp_carte_joueur)
 				self.ordi.ajoute_gagnee(self.temp_carte_ordi)
 
+			# si le joueur gagne :
 			elif self.gagnant == 1:
 				print("Joueur gagne contre ordi car : ", self.temp_carte_joueur, " > ",
 				      self.temp_carte_ordi)
@@ -165,11 +169,14 @@ class App:
 
 	def affichage(self):
 		""" affichage du jeu pour pygame """
+		# on vide la fenetre
+		self.screen.fill("white")
+		
 		if self.statut_partie == 0:
 			pass
 
 		elif self.statut_partie == 1:
-			# on affiche les cartes a partir de l'arribut de l'objet carte
+			# affichage des cartes de la manche en cours
 			self.screen.blit(self.temp_carte_joueur.image, (100, 100))
 			self.screen.blit(self.temp_carte_ordi.image, (300, 100))
 
@@ -185,6 +192,7 @@ class App:
 				                                   True, (0, 0, 0)), (100, 315))
 
 		elif self.statut_partie == 2:
+	    	# affichage du gagnant de la manche
 			if self.player.taille_gagnee() > self.ordi.taille_gagnee():
 				self.screen.blit(
 				 pygame.font.Font(None, 26).render("Joueur a gagné la manche", True,
@@ -196,7 +204,7 @@ class App:
 				                                   (0, 0, 0)), (100, 375))
 
 		elif self.statut_partie == 3:
-			# on affiche les cartes a partir de l'arribut de l'objet carte
+			# affichage de la fin de la partie
 			if self.player.recuperer_score() > self.ordi.recuperer_score():
 				self.screen.blit(
 				 pygame.font.Font(None, 26).render("Le joueur gagne la partie", True,
@@ -221,9 +229,6 @@ class App:
 				if event.type == pygame.QUIT:
 					self.running = False
 
-			# fill the screen with a color to wipe away anything from last frame
-			self.screen.fill("white")
-
 			# actualisation des variables
 			self.actualiser()
 
@@ -231,7 +236,6 @@ class App:
 			self.affichage()
 
 			# on attend l'interraction de l'utilisateur
-			# pas propre mais sera remplacer par un vrai couldown
 			action = False
 			while not action:
 				action = self.interaction()
