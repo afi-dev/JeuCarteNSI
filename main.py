@@ -18,6 +18,8 @@ rêgles du jeu :
 
 pour passez a l'ecrant suivant, appuyez sur la barre espace
 """
+### interraction utilisateur avec le choix de jouer la carte ou non avant de voir la carte adverse en bonus 
+
 # _____ bibliotheques _____ #
 import pygame
 import pygame.font
