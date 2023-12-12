@@ -172,12 +172,12 @@ class App:
 	def affichage(self):
 		""" affichage du jeu pour pygame """
 		# on vide la fenetre
-		self.screen.fill("white")
+		self.screen.fill("#023047")
 		
 		if self.statut_partie == 0:
 			self.screen.blit(
-				 pygame.font.Font(None, 26).render("Menu principal",
-												   True, (0, 0, 0)), (100, 315))
+				 pygame.font.Font(None, 70).render("Card Game",
+												   True, "#FB8500"), (95, 95
 
 		elif self.statut_partie == 1:
 			# affichage des cartes de la manche en cours
