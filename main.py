@@ -47,7 +47,7 @@ class App:
 		self.dt = 0
 
 		# creation du statut de la partie
-		self.statut_partie = 2  # 0 : menu ; 1 : manche en cours ; 2 : fin de manche ; 3 : fin de partie
+		self.statut_partie = 0  # 0 : menu ; 1 : manche en cours ; 2 : fin de manche ; 3 : fin de partie
 		# pour le moment initialisé à 2 car aucune manche n'est lancée
 
 		# On cree les joueurs
@@ -175,7 +175,9 @@ class App:
 		self.screen.fill("white")
 		
 		if self.statut_partie == 0:
-			pass
+			self.screen.blit(
+				 pygame.font.Font(None, 26).render("Menu principal",
+												   True, (0, 0, 0)), (100, 315))
 
 		elif self.statut_partie == 1:
 			# affichage des cartes de la manche en cours
@@ -241,6 +243,9 @@ class App:
 			action = False
 			while not action:
 				action = self.interaction()
+
+			if self.statut_partie == 0:
+				self.statut_partie = 2
 
 			self.dt = self.clock.tick(60) / 1000
 
