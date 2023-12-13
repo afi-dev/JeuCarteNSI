@@ -156,7 +156,6 @@ elle return le numero de la carte gagnante (1 ou 2)
 
 	def actualiser(self):
 		""" met a jour les variables si le joueur appuie sur espace """
-		print("salut")
 		if self.statut_partie == 0:
 			self.statut_partie = 2
 		
@@ -205,8 +204,13 @@ elle return le numero de la carte gagnante (1 ou 2)
 
 			# affichage des scores de la manche en cours
 			self.screen.blit(
-				pygame.font.Font('fonts/pridi-semibold.ttf', 26).render("player : {}".format(self.player.taille_gagnee()),
-												  True, (0, 0, 0)), (300, 200))
+				pygame.font.Font('fonts/pridi-semibold.ttf', 26).render("joueur : {}".format(self.player.taille_gagnee()),
+												  True, (0, 0, 0)), (150, 450))
+   
+			self.screen.blit(
+				pygame.font.Font('fonts/pridi-semibold.ttf', 26).render("ordi : {}".format(self.ordi.taille_gagnee()),
+												  True, (0, 0, 0)), (650, 450))
+   
 			# on affiche le texte selon le gagnant
 			if self.gagnant == 2:
 				self.screen.blit(
