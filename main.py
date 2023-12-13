@@ -165,8 +165,8 @@ elle return le numero de la carte gagnante (1 ou 2)
 
 		if self.statut_partie == 1:
 			# actualisation des manches
+			self.fin_manche()	
 			self.gestion_manche()
-			self.fin_manche()
 
 		if self.statut_partie == 3:
 			# actualisation de la fin de la partie
