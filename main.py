@@ -18,7 +18,7 @@ rêgles du jeu :
 
 pour passez a l'ecrant suivant, appuyez sur la barre espace
 """
-### interraction utilisateur avec le choix de jouer la carte ou non avant de voir la carte adverse en bonus 
+# interraction utilisateur avec le choix de jouer la carte ou non avant de voir la carte adverse en bonus
 
 # _____ bibliotheques _____ #
 import pygame
@@ -34,20 +34,19 @@ class App:
 
 	def __init__(self):
 		"""
-        Initialisation de la classe App
-        """
+Initialisation de la classe App
+"""
 		# Initialisation de Pygame
 		pygame.init()
-		self.screen = pygame.display.set_mode((550, 550))
+		self.screen = pygame.display.set_mode((896, 560))
 		self.clock = pygame.time.Clock()
 		self.running = True
-		self.window_name = "Jeu de Carte Pygame"
-		self.player_pos = pygame.Vector2(self.screen.get_width() / 2,
-		                                 self.screen.get_height() / 2)
+		self.window_name = "CardClash"
 		self.dt = 0
 
 		# creation du statut de la partie
-		self.statut_partie = 0  # 0 : menu ; 1 : manche en cours ; 2 : fin de manche ; 3 : fin de partie
+		# 0 : menu ; 1 : manche en cours ; 2 : fin de manche ; 3 : fin de partie
+		self.statut_partie = 0
 		# pour le moment initialisé à 2 car aucune manche n'est lancée
 
 		# On cree les joueurs
@@ -70,9 +69,9 @@ class App:
 
 	def comparaison_cartes(self, carte1, carte2) -> int:
 		""" compare deux objets carte  d'abord par leurs valeur et, en cas d'egalite, par leur couleurs
-    ordre des couleurs de la plus nulle a la plus forte : coeur, carreau, trefle, pique 
-    elle return le numero de la carte gagnante (1 ou 2)
-    """
+ordre des couleurs de la plus nulle a la plus forte : coeur, carreau, trefle, pique 
+elle return le numero de la carte gagnante (1 ou 2)
+"""
 		if carte1.get_valeur() > carte2.get_valeur():
 			return 1
 		elif carte1.get_valeur() < carte2.get_valeur():
@@ -106,19 +105,19 @@ class App:
 
 			# on compare les cartes
 			self.gagnant = self.comparaison_cartes(self.temp_carte_joueur,
-			                                       self.temp_carte_ordi)
+												   self.temp_carte_ordi)
 
 			# si l'ordi gagne :
 			if self.gagnant == 2:
 				print("Ordi gagne contre joueur car : ", self.temp_carte_ordi, " > ",
-				      self.temp_carte_joueur)
+					  self.temp_carte_joueur)
 				self.ordi.ajoute_gagnee(self.temp_carte_joueur)
 				self.ordi.ajoute_gagnee(self.temp_carte_ordi)
 
 			# si le joueur gagne :
 			elif self.gagnant == 1:
 				print("Joueur gagne contre ordi car : ", self.temp_carte_joueur, " > ",
-				      self.temp_carte_ordi)
+					  self.temp_carte_ordi)
 				self.player.ajoute_gagnee(self.temp_carte_joueur)
 				self.player.ajoute_gagnee(self.temp_carte_ordi)
 
@@ -172,59 +171,89 @@ class App:
 	def affichage(self):
 		""" affichage du jeu pour pygame """
 		# on vide la fenetre
-		self.screen.fill("#023047")
-		
+		self.screen.fill("#E4EDF8")
+
 		if self.statut_partie == 0:
-			self.screen.blit(
-				 pygame.font.Font(None, 70).render("Card Game",
-												   True, "#FB8500"), (95, 95
+			picture = pygame.image.load("images/main.png")
+			picture = pygame.transform.scale(picture, (896, 560))
+			self.screen.blit(picture, (0, 0, 100, 100))
+
+			# Titre du jeu
+			self.screen.blit(pygame.font.Font('fonts/parchment.ttf', 175).render(
+				"CardClash", True, "#000000"), (self.screen.get_width() / 2 - 250,
+												self.screen.get_height() / 2 - 210))
+
+			# Texte avant le nom des créateurs
+			self.screen.blit(pygame.font.Font('fonts/pridi-semibold.ttf', 13).render(
+				"Un jeu réalisé par", True, "#000000"), (self.screen.get_width() / 2 - 45,
+														 self.screen.get_height() / 2 - 25))
+
+			# Texte des créateurs
+			self.screen.blit(pygame.font.Font('fonts/pridi-bold.ttf', 16).render(
+				"Simon Cohet et Kaelian Baudelet", True, "#000000"), (self.screen.get_width() / 2 - 115,
+																	  self.screen.get_height() / 2 - 5))
 
 		elif self.statut_partie == 1:
 			# affichage des cartes de la manche en cours
 			self.screen.blit(self.temp_carte_joueur.image, (100, 100))
-			self.screen.blit(self.temp_carte_ordi.image, (300, 100))
+			self.screen.blit(self.temp_carte_ordi.image, (590, 100))
 
 			# on affiche le texte selon le gagnant
 			if self.gagnant == 2:
 				self.screen.blit(
-				 pygame.font.Font(None, 26).render("Joueur : Perd | Ordinateur : Gagne",
-				                                   True, (0, 0, 0)), (100, 315))
+					pygame.font.Font('fonts/pridi-semibold.ttf', 26).render("Joueur : Perd | Ordinateur : Gagne",
+													  True, (0, 0, 0)), (250, 400))
 
 			elif self.gagnant == 1:
 				self.screen.blit(
-				 pygame.font.Font(None, 26).render("Joueur : Gagne | Ordinateur : Perd",
-				                                   True, (0, 0, 0)), (100, 315))
+					pygame.font.Font('fonts/pridi-semibold.ttf', 26).render("Joueur : Gagne | Ordinateur : Perd",
+													  True, (0, 0, 0)), (250, 400))
 
 		elif self.statut_partie == 2:
-	    	# affichage du gagnant de la manche
+			# affichage du gagnant de la manche
 			if self.player.taille_gagnee() > self.ordi.taille_gagnee():
 				self.screen.blit(
-				 pygame.font.Font(None, 26).render("Joueur a gagné la manche", True,
-				                                   (0, 0, 0)), (100, 375))
+					pygame.font.Font('fonts/pridi-semibold.ttf', 26).render("Joueur a gagné la manche", True,
+													  (0, 0, 0)), (285, 250))
 
 			else:
 				self.screen.blit(
-				 pygame.font.Font(None, 26).render("Ordinateur a gagné la manche", True,
-				                                   (0, 0, 0)), (100, 375))
+					pygame.font.Font('fonts/pridi-semibold.ttf', 26).render("Ordinateur a gagné la manche", True,
+													  (0, 0, 0)), (285, 250))
 
 		elif self.statut_partie == 3:
 			# affichage de la fin de la partie
+			cup = pygame.image.load("images/1st-prize.png")
+			cup = pygame.transform.scale(cup, (200, 200))
+			
 			if self.player.recuperer_score() > self.ordi.recuperer_score():
+				hand = pygame.image.load("images/human_hand.png")
+				hand = pygame.transform.scale(hand, (256, 127.5))
+				self.screen.blit(hand, (0, 300, 100, 100))
+
+				self.screen.blit(cup, (50, 100, 100, 100))
+				
 				self.screen.blit(
-				 pygame.font.Font(None, 26).render("Le joueur gagne la partie", True,
-				                                   (0, 0, 0)), (100, 75))
+					pygame.font.Font('fonts/pridi-semibold.ttf', 26).render("Le joueur gagne la partie", True,
+													  (0, 0, 0)), (285, 250))
 
 			else:
+				hand = pygame.image.load("images/robot_hand.png")
+				hand = pygame.transform.scale(hand, (256, 127.5))
+				self.screen.blit(hand, (640, 300, 100, 100))
+
+				self.screen.blit(cup, (620, 100, 100, 100))
+				
 				self.screen.blit(
-				 pygame.font.Font(None, 26).render("L'ordinateur gagne la partie", True,
-				                                   (0, 0, 0)), (100, 75))
+					pygame.font.Font('fonts/pridi-semibold.ttf', 26).render("L'ordinateur gagne la partie", True,
+													  (0, 0, 0)), (285, 250))
 
 		pygame.display.flip()
 
 	def run(self):
 		"""
-        Fonction principale du jeu
-        """
+Fonction principale du jeu
+"""
 		pygame.display.set_caption(self.window_name)
 		while self.running:
 			# poll for events
