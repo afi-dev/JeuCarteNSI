@@ -156,24 +156,22 @@ elle return le numero de la carte gagnante (1 ou 2)
 
 	def actualiser(self):
 		""" met a jour les variables si le joueur appuie sur espace """
+		print("salut")
+		if self.statut_partie == 0:
+			self.statut_partie = 2
+		
 		if self.statut_partie == 2:
 			# création de la manche
 			self.debut_manche()
-		
-		for event in pygame.event.get():
-			if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-				print("salut")
-				if self.statut_partie == 0:
-					self.statut_partie = 1
-				
-				if self.statut_partie == 1:
-					# actualisation des manches
-					self.gestion_manche()
-					self.fin_manche()
-		
-				if self.statut_partie == 3:
-					# actualisation de la fin de la partie
-					self.fin_partie()
+
+		if self.statut_partie == 1:
+			# actualisation des manches
+			self.gestion_manche()
+			self.fin_manche()
+
+		if self.statut_partie == 3:
+			# actualisation de la fin de la partie
+			self.fin_partie()
 
 	def affichage(self):
 		""" affichage du jeu pour pygame """
@@ -297,15 +295,12 @@ Fonction principale du jeu
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					self.running = False
-
-			# actualisation des variables
-			self.actualiser()
+				elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+					# actualisation des variables
+					self.actualiser()
 
 			# affichage dans pygame
 			self.affichage()
-
-			if self.statut_partie == 0:
-				self.statut_partie = 2
 
 			self.dt = self.clock.tick(60) / 1000
 
