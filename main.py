@@ -24,6 +24,7 @@ pour passez a l'ecrant suivant, appuyez sur la barre espace
 import pygame
 import pygame.font
 from packet import Packets_cartes
+from carte import Carte
 from pile import Pile
 from joueur import Joueur
 import time
@@ -47,7 +48,6 @@ Initialisation de la classe App
 		# creation du statut de la partie
 		# 0 : menu ; 1 : manche en cours ; 2 : fin de manche ; 3 : fin de partie
 		self.statut_partie = 0
-		# pour le moment initialisé à 2 car aucune manche n'est lancée
 
 		# On cree les joueurs
 		self.player = Joueur()
@@ -62,6 +62,14 @@ Initialisation de la classe App
 		self.packet = Packets_cartes()
 		self.packet.creation_packet()
 
+		# on créé les cartes temporaires (évite les crach)
+		self.temp_carte_joueur = Carte(0, "")
+		self.temp_carte_joueur.image = pygame.image.load("images/dos-rouge.png")
+		self.temp_carte_ordi = Carte(0, "")
+		self.temp_carte_ordi.image = pygame.image.load("images/dos-bleu.png")
+		# idem pour le gagnat
+		self.gagnant = 0
+		
 		while not self.packet.est_vide():
 			# On distribue les cartes
 			for manche in self.manches:
@@ -146,27 +154,26 @@ elle return le numero de la carte gagnante (1 ou 2)
 			else:
 				print("🏆 L'ordinateur gagne la partie")
 
-			self.statut_partie = 1
-
-	def interaction(self):
-		""" attends une interraction du joueur avant de finir """
-		for event in pygame.event.get():
-			return event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE
-
 	def actualiser(self):
-		""" met a jour les variables """
+		""" met a jour les variables si le joueur appuie sur espace """
 		if self.statut_partie == 2:
 			# création de la manche
 			self.debut_manche()
-
-		if self.statut_partie == 1:
-			# actualisation des manches
-			self.gestion_manche()
-			self.fin_manche()
-
-		if self.statut_partie == 3:
-			# actualisation de la fin de la partie
-			self.fin_partie()
+		
+		for event in pygame.event.get():
+			if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+				print("salut")
+				if self.statut_partie == 0:
+					self.statut_partie = 1
+				
+				if self.statut_partie == 1:
+					# actualisation des manches
+					self.gestion_manche()
+					self.fin_manche()
+		
+				if self.statut_partie == 3:
+					# actualisation de la fin de la partie
+					self.fin_partie()
 
 	def affichage(self):
 		""" affichage du jeu pour pygame """
@@ -198,6 +205,10 @@ elle return le numero de la carte gagnante (1 ou 2)
 			self.screen.blit(self.temp_carte_joueur.image, (100, 100))
 			self.screen.blit(self.temp_carte_ordi.image, (590, 100))
 
+			# affichage des scores de la manche en cours
+			self.screen.blit(
+				pygame.font.Font('fonts/pridi-semibold.ttf', 26).render("player : {}".format(self.player.taille_gagnee()),
+												  True, (0, 0, 0)), (300, 200))
 			# on affiche le texte selon le gagnant
 			if self.gagnant == 2:
 				self.screen.blit(
@@ -211,39 +222,64 @@ elle return le numero de la carte gagnante (1 ou 2)
 
 		elif self.statut_partie == 2:
 			# affichage du gagnant de la manche
+			# on cree une coupe a afficher
+			cup = pygame.image.load("images/2nd-place.png")
+			cup = pygame.transform.scale(cup, (200, 200))
+			
 			if self.player.taille_gagnee() > self.ordi.taille_gagnee():
+				# si le joueur gagne
+				# on affiche la "main" du joueur
+				hand = pygame.image.load("images/human_hand.png")
+				hand = pygame.transform.scale(hand, (256, 127.5))
+				self.screen.blit(hand, (0, 300, 100, 100))
+				# puis la coupe
+				self.screen.blit(cup, (50, 100, 100, 100))
+				# et enfin le texte	
 				self.screen.blit(
 					pygame.font.Font('fonts/pridi-semibold.ttf', 26).render("Joueur a gagné la manche", True,
 													  (0, 0, 0)), (285, 250))
 
 			else:
+				# si l'ordi gagne
+				# on affiche la "main" de l'ordi
+				hand = pygame.image.load("images/robot_hand.png")
+				hand = pygame.transform.scale(hand, (256, 127.5))
+				self.screen.blit(hand, (640, 300, 100, 100))
+				# puis la coupe
+				self.screen.blit(cup, (620, 100, 100, 100))
+				# et enfin le texte
 				self.screen.blit(
 					pygame.font.Font('fonts/pridi-semibold.ttf', 26).render("Ordinateur a gagné la manche", True,
 													  (0, 0, 0)), (285, 250))
 
 		elif self.statut_partie == 3:
 			# affichage de la fin de la partie
+			# on cree une coupe a afficher
 			cup = pygame.image.load("images/1st-prize.png")
 			cup = pygame.transform.scale(cup, (200, 200))
 			
 			if self.player.recuperer_score() > self.ordi.recuperer_score():
+				# si le joueur gagne
+				# on affiche la "main" du joueur
 				hand = pygame.image.load("images/human_hand.png")
 				hand = pygame.transform.scale(hand, (256, 127.5))
 				self.screen.blit(hand, (0, 300, 100, 100))
-
+				# puis la coupe
 				self.screen.blit(cup, (50, 100, 100, 100))
-				
+				# et enfin le texte
 				self.screen.blit(
 					pygame.font.Font('fonts/pridi-semibold.ttf', 26).render("Le joueur gagne la partie", True,
 													  (0, 0, 0)), (285, 250))
 
 			else:
+				# si l'ordi gagne
+				# on affiche la "main" de l'ordi
 				hand = pygame.image.load("images/robot_hand.png")
 				hand = pygame.transform.scale(hand, (256, 127.5))
 				self.screen.blit(hand, (640, 300, 100, 100))
-
+				# puis la coupe
 				self.screen.blit(cup, (620, 100, 100, 100))
-				
+				# et enfin le texte
 				self.screen.blit(
 					pygame.font.Font('fonts/pridi-semibold.ttf', 26).render("L'ordinateur gagne la partie", True,
 													  (0, 0, 0)), (285, 250))
@@ -267,11 +303,6 @@ Fonction principale du jeu
 
 			# affichage dans pygame
 			self.affichage()
-
-			# on attend l'interraction de l'utilisateur
-			action = False
-			while not action:
-				action = self.interaction()
 
 			if self.statut_partie == 0:
 				self.statut_partie = 2

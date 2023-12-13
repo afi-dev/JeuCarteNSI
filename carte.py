@@ -17,7 +17,8 @@ class Carte:
 		self.valeur = valeur
 		self.couleur = couleur
 		# cree l'objet pygame image correspondant a la carte
-		self.image = pygame.image.load("./images/{}-{}.png".format(self.valeur_naturelle(), self.couleur))
+		if self.valeur != 0:
+			self.image = pygame.image.load("./images/{}-{}.png".format(self.valeur_naturelle(), self.couleur))
 
 	def __str__(self) -> str:
 		"""return la représentation de la carte sous forme de string"""
