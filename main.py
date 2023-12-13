@@ -224,6 +224,16 @@ elle return le numero de la carte gagnante (1 ou 2)
 
 		elif self.statut_partie == 2:
 			# affichage du gagnant de la manche
+   
+			# affichage des scores de la partie en cours
+			self.screen.blit(
+				pygame.font.Font('fonts/pridi-semibold.ttf', 26).render("joueur : {}".format(self.player.score),
+												  True, (0, 0, 0)), (100, 450))
+   
+			self.screen.blit(
+				pygame.font.Font('fonts/pridi-semibold.ttf', 26).render("ordi : {}".format(self.ordi.score),
+												  True, (0, 0, 0)), (700, 450))
+   
 			# on cree une coupe a afficher
 			cup = pygame.image.load("images/2nd-place.png")
 			cup = pygame.transform.scale(cup, (200, 200))
@@ -256,6 +266,16 @@ elle return le numero de la carte gagnante (1 ou 2)
 
 		elif self.statut_partie == 3:
 			# affichage de la fin de la partie
+
+			# affichage des scores de la partie finie
+			self.screen.blit(
+				pygame.font.Font('fonts/pridi-semibold.ttf', 26).render("joueur : {}".format(self.player.score),
+												  True, (0, 0, 0)), (100, 450))
+   
+			self.screen.blit(
+				pygame.font.Font('fonts/pridi-semibold.ttf', 26).render("ordi : {}".format(self.ordi.score),
+												  True, (0, 0, 0)), (700, 450))
+   
 			# on cree une coupe a afficher
 			cup = pygame.image.load("images/1st-prize.png")
 			cup = pygame.transform.scale(cup, (200, 200))
