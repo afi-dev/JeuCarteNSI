@@ -176,8 +176,41 @@ elle return le numero de la carte gagnante (1 ou 2)
 		""" affichage du jeu pour pygame """
 		# on vide la fenetre
 		self.screen.fill("#E4EDF8")
+		if self.statut_partie == -1:
+			# affichage du menu
+			self.screen.blit(pygame.font.Font('fonts/parchment.ttf', 105).render(
+				"Régles du jeux", True, "#000000"), (self.screen.get_width() / 2 - 250,
+													 self.screen.get_height() / 2 - 210))
 
-		if self.statut_partie == 0:
+			self.screen.blit(pygame.font.Font('fonts/pridi-semibold.ttf', 26).render(
+				"Le jeu se joue en trois manches", True, "#000000"), (self.screen.get_width() / 2 - 250,
+																	  self.screen.get_height() / 2 - 210))
+
+			self.screen.blit(pygame.font.Font('fonts/pridi-semibold.ttf', 26).render(
+				"Le joueur et l'ordinateur recoivent chacun 17 cartes", True, "#000000"), (self.screen.get_width() / 2 - 250,
+																						   self.screen.get_height() / 2 - 210))
+
+			self.screen.blit(pygame.font.Font('fonts/pridi-semibold.ttf', 26).render(
+				"Le joueur et l'ordinateur retournent une carte chacun", True, "#000000"), (self.screen.get_width() / 2 - 250,
+																							self.screen.get_height() / 2 - 210))
+
+			self.screen.blit(pygame.font.Font('fonts/pridi-semibold.ttf', 26).render(
+				"Si la carte du joueur est plus forte que celle de l'ordinateur", True, "#000000"), (self.screen.get_width() / 2 - 250,
+																									 self.screen.get_height() / 2 - 210))
+
+			self.screen.blit(pygame.font.Font('fonts/pridi-semibold.ttf', 26).render(
+				"Le joueur gagne les deux cartes", True, "#000000"), (self.screen.get_width() / 2 - 250,
+																	  self.screen.get_height() / 2 - 210))
+
+			self.screen.blit(pygame.font.Font('fonts/pridi-semibold.ttf', 26).render(
+				"Si la carte de l'ordinateur est plus forte que celle du joueur", True, "#000000"), (self.screen.get_width() / 2 - 250,
+																									 self.screen.get_height() / 2 - 210))
+
+			self.screen.blit(pygame.font.Font('fonts/pridi-semibold.ttf', 26).render(
+				"L'ordinateur gagne les deux cartes", True, "#000000"), (self.screen.get_width() / 2 - 250,
+																		 self.screen.get_height() / 2 - 210))
+
+		elif self.statut_partie == 0:
 			picture = pygame.image.load("images/main.png")
 			picture = pygame.transform.scale(picture, (896, 560))
 			self.screen.blit(picture, (0, 0, 100, 100))
