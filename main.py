@@ -59,14 +59,6 @@ Initialisation de la classe App
 		# On créé le paqquer puis les paquets de manches
 		self.packet = Packets_cartes()
 		self.packet.creation_packet()
-
-		# on créé les cartes temporaires (évite les crach)
-		self.temp_carte_joueur = Carte(0, "")
-		self.temp_carte_joueur.image = pygame.image.load("images/dos-rouge.png")
-		self.temp_carte_ordi = Carte(0, "")
-		self.temp_carte_ordi.image = pygame.image.load("images/dos-bleu.png")
-		# idem pour le gagnat
-		self.gagnant = 0
 		
 		while not self.packet.est_vide():
 			# On distribue les cartes
@@ -142,6 +134,21 @@ elle return le numero de la carte gagnante (1 ou 2)
 				self.statut_partie = 3  # statut_partie = jeu fini
 			else:
 				self.statut_partie = 2  # statut_partie = manche finie
+    
+	def fin_jeu(self):
+		""" si la partie est finit on remet les scores a 0 et on recommence """
+		self.manche_en_cours = 0
+		self.player.score = 0
+		self.ordi.score = 0
+		# on créé un nouveau packet 
+		self.packet.creation_packet()
+		# on créé les manches
+		self.manches = [Pile(), Pile(), Pile()]
+		# on distribue les cartes
+		while not self.packet.est_vide():
+			for manche in self.manches:
+				manche.empiler(self.packet.prendre_carte())
+        
 
 	def actualiser(self):
 		""" met a jour les variables si le joueur appuie sur espace """
@@ -158,7 +165,8 @@ elle return le numero de la carte gagnante (1 ou 2)
 			self.gestion_manche()
 
 		elif self.statut_partie == 3:
-			# si la partie est finie on revient au menu
+			# si la partie est finie on revient au menu et on rénitilise
+			self.fin_jeu()
 			self.statut_partie = 0  # statut_partie = debut partie
 
 	def affichage(self):
