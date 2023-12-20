@@ -99,8 +99,8 @@ class Unix(PlatformDirsABC):
 
     @property
     def site_cache_dir(self) -> str:
-        """:return: cache directory shared by users, e.g. ``/var/tmp/$appname/$version``"""
-        return self._append_app_name_and_version("/var/tmp")  # noqa: S108
+        """:return: cache directory shared by users, e.g. ``/var/cache/$appname/$version``"""
+        return self._append_app_name_and_version("/var/cache")
 
     @property
     def user_state_dir(self) -> str:
@@ -170,6 +170,28 @@ class Unix(PlatformDirsABC):
                     path = f"/tmp/runtime-{getuid()}"  # noqa: S108
             else:
                 path = f"/run/user/{getuid()}"
+        return self._append_app_name_and_version(path)
+
+    @property
+    def site_runtime_dir(self) -> str:
+        """
+        :return: runtime directory shared by users, e.g. ``/run/$appname/$version`` or \
+        ``$XDG_RUNTIME_DIR/$appname/$version``.
+
+        Note that this behaves almost exactly like `user_runtime_dir` if ``$XDG_RUNTIME_DIR`` is set, but will
+        fall back to paths associated to the root user instead of a regular logged-in user if it's not set.
+
+        If you wish to ensure that a logged-in root user path is returned e.g. ``/run/user/0``, use `user_runtime_dir`
+        instead.
+
+        For FreeBSD/OpenBSD/NetBSD, it would return ``/var/run/$appname/$version`` if ``$XDG_RUNTIME_DIR`` is not set.
+        """
+        path = os.environ.get("XDG_RUNTIME_DIR", "")
+        if not path.strip():
+            if sys.platform.startswith(("freebsd", "openbsd", "netbsd")):
+                path = "/var/run"
+            else:
+                path = "/run"
         return self._append_app_name_and_version(path)
 
     @property

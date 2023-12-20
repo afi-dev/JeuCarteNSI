@@ -27,8 +27,6 @@ from packet import Packets_cartes
 from carte import Carte
 from pile import Pile
 from joueur import Joueur
-import time
-
 
 # _____ Classes _____ #
 class App:
@@ -145,15 +143,6 @@ elle return le numero de la carte gagnante (1 ou 2)
 			else:
 				self.statut_partie = 2  # statut_partie = manche finie
 
-	def fin_partie(self):
-		""" fin de la partie apres les deux ou trois manches """
-		if self.statut_partie == 0:
-			if self.player.recuperer_score() > self.ordi.recuperer_score():
-				print("🏆 Le joueur gagne la partie")
-
-			else:
-				print("🏆 L'ordinateur gagne la partie")
-
 	def actualiser(self):
 		""" met a jour les variables si le joueur appuie sur espace """
 		if self.statut_partie == 0:
@@ -168,15 +157,21 @@ elle return le numero de la carte gagnante (1 ou 2)
 			self.fin_manche()	
 			self.gestion_manche()
 
-		if self.statut_partie == 3:
-			# actualisation de la fin de la partie
-			self.fin_partie()
+		elif self.statut_partie == 3:
+			# si la partie est finie on revient au menu
+			self.statut_partie = 0  # statut_partie = debut partie
 
 	def affichage(self):
 		""" affichage du jeu pour pygame """
 		# on vide la fenetre
 		self.screen.fill("#E4EDF8")
 		if self.statut_partie == -1:
+
+			#affiche btn: 
+			
+			self.screen.blit(pygame.font.Font('fonts/pridi-semibold.ttf', 10).render(
+				"Revenir au menu", True, "#000000"), (self.screen.get_width() / 2 - 250,
+													 self.screen.get_height() / 2 - 280))
 			# affichage du menu
 			self.screen.blit(pygame.font.Font('fonts/parchment.ttf', 105).render(
 				"Régles du jeux", True, "#000000"), (self.screen.get_width() / 2 - 250,
@@ -209,6 +204,12 @@ elle return le numero de la carte gagnante (1 ou 2)
 			self.screen.blit(pygame.font.Font('fonts/pridi-semibold.ttf', 26).render(
 				"L'ordinateur gagne les deux cartes", True, "#000000"), (self.screen.get_width() / 2 - 250,
 																		 self.screen.get_height() / 2 - 210))
+
+		elif self.statut_partie == -1:
+			# affichage du menu
+			self.screen.blit(pygame.font.Font('fonts/parchment.ttf', 105).render(
+				"Régles du jeux", True, "#000000"), (self.screen.get_width() / 2 - 250,
+													 self.screen.get_height() / 2 - 210))
 
 		elif self.statut_partie == 0:
 			picture = pygame.image.load("images/main.png")
@@ -352,9 +353,18 @@ Fonction principale du jeu
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					self.running = False
+				elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and self.statut_partie == -1:
+					self.statut_partie = 0
 				elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
 					# actualisation des variables
 					self.actualiser()
+				elif self.statut_partie == 0 and pygame.mouse.get_pressed() and pygame.mouse.get_pos()[0] > 100 and pygame.mouse.get_pos()[0] < 300 and pygame.mouse.get_pos()[1] > 100 and pygame.mouse.get_pos()[1] < 300:
+					self.statut_partie = -1
+				elif self.statut_partie == 0 and pygame.mouse.get_pressed() and pygame.mouse.get_pos()[0] > 100 and pygame.mouse.get_pos()[0] < 300 and pygame.mouse.get_pos()[1] > 100 and pygame.mouse.get_pos()[1] < 300:
+					self.statut_partie = 1
+				elif self.statut_partie == -1 and pygame.mouse.get_pressed() and pygame.mouse.get_pos()[0] > 100 and pygame.mouse.get_pos()[0] < 300 and pygame.mouse.get_pos()[1] > 100 and pygame.mouse.get_pos()[1] < 300:
+					self.statut_partie = 0
+				
 
 			# affichage dans pygame
 			self.affichage()
