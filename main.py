@@ -225,6 +225,20 @@ elle return le numero de la carte gagnante (1 ou 2)
 			self.screen.blit(picture, (0, 0, 100, 100))
 
 			# Titre du jeu
+
+			pygame.draw.rect(self.screen, (255, 255, 255), (self.screen.get_height() / 2 + 140, self.screen.get_height() / 2 + 75, 70, 30))
+			self.screen.blit(pygame.font.Font('fonts/pridi-semibold.ttf', 22).render(
+				"Jouer", True, "#000000"), (self.screen.get_width() / 2 - 22,
+													self.screen.get_height() / 2 + 72))
+			pygame.draw.rect(self.screen, (255, 255, 255), (self.screen.get_height() / 2 + 135, self.screen.get_height() / 2 + 125, 80, 30))
+			self.screen.blit(pygame.font.Font('fonts/pridi-semibold.ttf', 22).render(
+				"Régles", True, "#000000"), (self.screen.get_width() / 2 - 26,
+													self.screen.get_height() / 2 + 122))
+			pygame.draw.rect(self.screen, (255, 255, 255), (self.screen.get_height() / 2 + 98, self.screen.get_height() / 2 + 175, 156, 30))
+			self.screen.blit(pygame.font.Font('fonts/pridi-semibold.ttf', 22).render(
+				"Quitter le jeu", True, "#000000"), (self.screen.get_width() / 2 - 63,
+													self.screen.get_height() / 2 + 172))
+			
 			self.screen.blit(pygame.font.Font('fonts/parchment.ttf', 175).render(
 				"CardClash", True, "#000000"), (self.screen.get_width() / 2 - 250,
 												self.screen.get_height() / 2 - 210))
@@ -237,7 +251,7 @@ elle return le numero de la carte gagnante (1 ou 2)
 			# Texte des créateurs
 			self.screen.blit(pygame.font.Font('fonts/pridi-bold.ttf', 16).render(
 				"Simon Cohet et Kaelian Baudelet", True, "#000000"), (self.screen.get_width() / 2 - 115,
-																	  self.screen.get_height() / 2 - 5))
+																	  self.screen.get_height() / 2 + 5))
 
 		elif self.statut_partie == 1:
 			# affichage des cartes de la manche en cours
@@ -351,6 +365,8 @@ elle return le numero de la carte gagnante (1 ou 2)
 		pygame.display.flip()
 
 	def run(self):
+
+		
 		"""
 Fonction principale du jeu
 """
@@ -364,13 +380,10 @@ Fonction principale du jeu
 				elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and self.statut_partie == -1:
 					self.statut_partie = 0
 				elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-					# actualisation des variables
 					self.actualiser()
-				elif self.statut_partie == 0 and pygame.mouse.get_pressed() and pygame.mouse.get_pos()[0] > 100 and pygame.mouse.get_pos()[0] < 300 and pygame.mouse.get_pos()[1] > 100 and pygame.mouse.get_pos()[1] < 300:
+				elif self.statut_partie == 0 and event.type == pygame.MOUSEBUTTONUP and event.pos[0] > 320 and event.pos[0] < 420 and event.pos[1] > 420 and event.pos[1] < 520:
 					self.statut_partie = -1
-				elif self.statut_partie == 0 and pygame.mouse.get_pressed() and pygame.mouse.get_pos()[0] > 100 and pygame.mouse.get_pos()[0] < 300 and pygame.mouse.get_pos()[1] > 100 and pygame.mouse.get_pos()[1] < 300:
-					self.statut_partie = 1
-				elif self.statut_partie == -1 and pygame.mouse.get_pressed() and pygame.mouse.get_pos()[0] > 100 and pygame.mouse.get_pos()[0] < 300 and pygame.mouse.get_pos()[1] > 100 and pygame.mouse.get_pos()[1] < 300:
+				elif self.statut_partie == -1 and event.type == pygame.MOUSEBUTTONUP and event.pos[0] > 0 and event.pos[0] < 600 and event.pos[1] > 0 and event.pos[1] < 600:
 					self.statut_partie = 0
 				
 
