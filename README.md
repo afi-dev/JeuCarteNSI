@@ -1,46 +1,85 @@
-Pygame Card Game
+# Pygame Card Game
 
-Welcome to the Pygame Card Game! This game is based on the card battle game, where two players compete to win rounds. In this version, there is no second player—your opponent is the computer. The game has been modified to ensure it doesn’t last indefinitely. There are three rounds, and each player has a set number of cards between rounds. The player who wins the most rounds wins the game.
+## About the Project
 
-Here’s how you can launch the game:
-Prerequisites
+This game was developed as part of the **NSI** (Numérique et Sciences Informatiques) course in high school. It was a collaborative project, created with the help of a classmate.
 
-Before running the game, make sure you have Python and Pygame installed on your computer.
+# Rules of the game
 
-Python: You can download Python from the official python.org website.
+Welcome to the Pygame Card Game! This is a card battle game inspired by the classic card game "Snap." In this version, you’ll face off against the computer in a series of rounds. The game has been designed to last for three rounds, with the winner being the player who wins the most rounds.
 
-Pygame: You can install Pygame by running the following command in your terminal or command prompt:
+## Game Overview
 
-(You can also run this project from Thonny/EduPython)
-Launching the Game
-Option 1: Launching from the source code (main.py)
+- The game consists of three rounds.
+- Each round, the deck is divided into three equal piles.
+- The computer and the player each receive one pile.
+- The player and computer each flip one card at a time. The player with the higher card wins the round and takes both cards.
+- After each round, the player with the most cards wins a point.
+- If there's a tie after two rounds, a third and final round will be played.
+- The player who wins the most rounds is the overall winner.
 
-Open a terminal or command prompt.
+## How to Play
 
-Navigate to the directory where you saved the game files.
+- **Goal**: Win the most rounds out of three.
+- **Cards**: Higher numbered cards win against lower ones.
+- **Rounds**: Each round consists of flipping one card at a time.
+- **Winning**: The player with the most cards at the end of the round wins a point.
 
-Run the following command to start the game:
+Press **Space Bar** to proceed to the next screen.
 
+## Installation
+
+Before you can play, make sure you have **Python** and **Pygame** installed on your computer.
+
+### Prerequisites
+
+- **Python**: You can download Python from the official website [python.org](https://www.python.org/downloads/).
+- **Pygame**: Install Pygame by running the following command in your terminal or command prompt:
+
+  ```bash
+  pip install pygame
+  ```
+
+You can also use IDEs like **Thonny** or **EduPython** to run the game directly.
+
+## Launching the Game
+
+You have two options to run the game: from the source code or from the compiled executable.
+
+### Option 1: Running from Source Code
+
+1. Open a terminal or command prompt.
+2. Navigate to the directory where you saved the game files.
+3. Run the following command to start the game:
+
+```bash
 python main.py
+```
 
-The game should launch and appear in a Pygame window.
-Option 2: Launching from the executable file (.exe)
+The game will launch in a Pygame window.
 
-Go to the /dist folder.
+### Option 2: Running from Executable (.exe)
 
-Double-click the main.exe file.
+1. Navigate to the `dist` folder.
+2. Double-click on `main.exe`.
 
-The game should launch and display in a Pygame window with the debug terminal.
-How to Play
+The game will launch in a Pygame window, and you’ll see the game interface with the debug terminal.
 
-Game rules:
+## How to Play
 
-The deck is divided into three equal piles.
-The first pile is dealt between the two players.
-Each player flips one card at a time. The player with the higher card wins the cards.
-The player with the most cards at the end of the round scores a point.
-The second round then begins.
-In case of a tie after the first two rounds, a third round will be played.
-The winner is the player who wins the most rounds out of three.
+### Game Rules
 
-To proceed to the next screen, press the space bar.
+1. **Deck Division**: The deck is divided into three equal piles.
+2. **Card Distribution**: Each player receives one pile of cards.
+3. **Flipping Cards**: Players flip one card at a time. The player with the higher card wins both cards.
+4. **Round Scoring**: The player with the most cards at the end of a round wins one point.
+5. **Tie Breaker**: If there's a tie after two rounds, a third round is played.
+6. **Winner**: The player with the most points after three rounds wins the game.
+
+To proceed to the next screen, press the **space bar**.
+
+## License
+
+This project is open-source and available under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+**Enjoy the game and good luck!**
