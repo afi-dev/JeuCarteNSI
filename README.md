@@ -56,13 +56,6 @@ You have two options to run the game: from the source code or from the compiled 
 python main.py
 ```
 
-The game will launch in a Pygame window.
-
-### Option 2: Running from Executable (.exe)
-
-1. Navigate to the `dist` folder.
-2. Double-click on `main.exe`.
-
 The game will launch in a Pygame window, and you’ll see the game interface with the debug terminal.
 
 ## How to Play
