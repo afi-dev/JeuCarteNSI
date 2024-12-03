@@ -1,50 +1,46 @@
-# Jeu de Cartes Pygame
+Pygame Card Game
 
-Bienvenue dans le jeu de cartes Pygame ! Ce jeu est basé sur les le jeu de cartes de bataille, où deux joueurs s'affrontent pour gagner des manches. Ici, pas de second joueur mais l'ordinateur comme adverssaire. Le jeu a été retravailler pour que le jeu ne dure pas indéfiniment. Il y a 3 manches ou chaque joueurs possède un nombres de cartes entre chaque manche. Le joueur qui remporte le plus de manches gagne la partie. 
+Welcome to the Pygame Card Game! This game is based on the card battle game, where two players compete to win rounds. In this version, there is no second player—your opponent is the computer. The game has been modified to ensure it doesn’t last indefinitely. There are three rounds, and each player has a set number of cards between rounds. The player who wins the most rounds wins the game.
 
-**Voici comment vous pouvez lancer le jeu :**
+Here’s how you can launch the game:
+Prerequisites
 
-## Prérequis
+Before running the game, make sure you have Python and Pygame installed on your computer.
 
-Avant de lancer le jeu, assurez-vous d'avoir installé Python et Pygame sur votre ordinateur.
+Python: You can download Python from the official python.org website.
 
-- Python : Vous pouvez télécharger Python depuis le site officiel [python.org](https://www.python.org/downloads/).
+Pygame: You can install Pygame by running the following command in your terminal or command prompt:
 
-- Pygame : Vous pouvez installer Pygame en exécutant la commande suivante dans votre terminal ou invite de commande :
+(You can also run this project from Thonny/EduPython)
+Launching the Game
+Option 1: Launching from the source code (main.py)
 
-(Vous pouvez aussi lancer ce projet depuis Thonny/EduPython)
+Open a terminal or command prompt.
 
-## Lancement du Jeu
+Navigate to the directory where you saved the game files.
 
-### Option 1 : Lancement à partir du code source (main.py)
+Run the following command to start the game:
 
-1. Ouvrez un terminal ou une invite de commande.
+python main.py
 
-2. Naviguez vers le répertoire où vous avez enregistré les fichiers du jeu.
+The game should launch and appear in a Pygame window.
+Option 2: Launching from the executable file (.exe)
 
-3. Exécutez la commande suivante pour lancer le jeu : 
+Go to the /dist folder.
 
-```python main.py```
+Double-click the main.exe file.
 
-Le jeu devrait se lancer et s'afficher dans une fenêtre Pygame.
+The game should launch and display in a Pygame window with the debug terminal.
+How to Play
 
-### Option 2 : Lancement à partir du fichier exécutable (.exe)
+Game rules:
 
-1. Allez dans le dossier /dist
+The deck is divided into three equal piles.
+The first pile is dealt between the two players.
+Each player flips one card at a time. The player with the higher card wins the cards.
+The player with the most cards at the end of the round scores a point.
+The second round then begins.
+In case of a tie after the first two rounds, a third round will be played.
+The winner is the player who wins the most rounds out of three.
 
-2. Double-cliquez sur le fichier main.exe.
-
-Le jeu devrait se lancer et s'afficher dans une fenêtre Pygame avec le terminal de debug.
-
-## Comment Jouer
-
-rêgles du jeu :
- - on divise le paquet en trois tas égaux
- - on prends le premier tas et on distribue aux deux joueurs
- - une par une, on retourne les cartes en même temps, le joueur qui a la carte la plus élevée gagne les cartes
- - le joueur qui à le plus de nombre de carte à la fin de la manche remporte un point
- - on recommence avec la deuxième manche
- - en cas d'égualité à la fin des deux manches on recommence avec la troisième manche
- le gagnant est celui qui a remporté le plus de manches parmi les 3 manches
-
-pour passez a l'ecrant suivant, appuyez sur la barre espace
+To proceed to the next screen, press the space bar.
